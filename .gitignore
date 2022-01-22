@@ -1,3 +1,16 @@
+
+# 笔记文件夹
+.note
+.note/
+
+*.pkl
+*.pk
+
+# 编辑器缓存文件夹
+.idea
+.idea/
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
