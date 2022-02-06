@@ -10,21 +10,21 @@ from pydantic import BaseModel
 from gfdata.attach import get_today, TRADING_PRE_DT, TRADING_TODAY_DT, TRADING_TODAY, TRADING_PRE, CODE_SEP
 
 
-class basic__convert_code(BaseModel):
+class convert_code(BaseModel):
     code: str = CODE_SEP.join(['000001.SZ', 'FU2103', 'I2109-C-810'])
 
 
-class basic__get_all_securities(BaseModel):
+class get_all_securities(BaseModel):
     types: str = CODE_SEP.join(['etf', 'lof'])
     date: Optional[datetime.date] = TRADING_TODAY
 
 
-class basic__get_security_info(BaseModel):
+class get_security_info(BaseModel):
     code: str = '512880.XSHG'
     date: Optional[datetime.date] = None  # TRADING_TODAY
 
 
-class get_extras__info(Enum):  # get_extras函数的info参数
+class _get_extras__info(Enum):  # get_extras函数的info参数
     is_st = 'is_st'
     acc_net_value = 'acc_net_value'
     unit_net_value = 'unit_net_value'
@@ -33,24 +33,24 @@ class get_extras__info(Enum):  # get_extras函数的info参数
     adj_net_value = 'adj_net_value'
 
 
-class basic__get_extras(BaseModel):
-    info: get_extras__info = 'is_st'
+class get_extras(BaseModel):
+    info: _get_extras__info = 'is_st'
     security_list: str = CODE_SEP.join(['000001.XSHE', '600000.XSHG'])
     start_date: Optional[datetime.date] = None  # TRADING_PRE
     end_date: datetime.date = TRADING_TODAY
     count: Optional[int] = None
 
 
-class basic__get_trade_days(BaseModel):
+class get_trade_days(BaseModel):
     start_date: str = '2005-01-01'
     end_date: str = TRADING_TODAY
     count: int = None
 
 
-class basic__get_bars(BaseModel):
+class get_bars(BaseModel):
     security: str = CODE_SEP.join(['000001.XSHE', '600000.XSHG'])
     count: Optional[int] = None
-    unit: str = ''
+    unit: str = '1d'
     fields: Optional[str] = CODE_SEP.join(['date', 'open', 'close', 'high', 'low', 'volume', 'money'])
     include_now: bool = False
     end_dt: str
@@ -58,7 +58,7 @@ class basic__get_bars(BaseModel):
     df: bool = True
 
 
-class basic__get_price(BaseModel):
+class get_price(BaseModel):
     security: str = CODE_SEP.join(['000001.XSHE', '600000.XSHG'])
     start_date: Optional[str] = None  # TRADING_PRE_DT
     end_date: Optional[str] = TRADING_TODAY_DT
@@ -71,7 +71,7 @@ class basic__get_price(BaseModel):
     fill_paused: Optional[bool] = True
 
 
-class basic__get_call_auction(BaseModel):
+class get_call_auction(BaseModel):
     security: str = CODE_SEP.join(['000001.XSHE', '600000.XSHG'])
     start_date: Optional[str] = None  # TRADING_PRE_DT
     end_date: Optional[str] = TRADING_TODAY

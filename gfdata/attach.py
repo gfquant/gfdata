@@ -4,6 +4,7 @@
 # ----------------------
 import os
 import datetime
+from importlib import import_module
 from pathlib import Path
 
 from pydantic import BaseModel
@@ -44,10 +45,12 @@ def args_by_url(url: str) -> BaseModel:
     if not url.startswith('/'):
         url = '/' + url
     sep = Path(url).with_suffix('').parts  # 去掉后缀/或.xxx
-    rule = '__'.join(sep[1:])
-    from gfdata import args
-    model = getattr(args, rule)
-    return model
+    # 分割为model和obj
+    model = ['gfdata', 'args']
+    model.extend(sep[1:-1])  # 去掉首尾
+    model = import_module('.'.join(model))
+    obj = getattr(model, sep[-1])
+    return obj
 
 
 # 默认值设置-------------------------------------------------------------------
